@@ -8,10 +8,12 @@ import {
 } from "react-native";
 import firebase from "../database/firebase";
 import { ListItem, Avatar } from "react-native-elements";
+import { useNavigation } from '@react-navigation/native';
 import avatarImage from "../assets/avatar.png";
 
-const UserListScreen = (props) => {
+const UserListScreen = () => {
   const [users, setUsers] = useState([]);
+  const navigation = useNavigation();
 
   useEffect(() => {
     firebase.db.collection("users").onSnapshot((querySnapshot) => {
@@ -35,7 +37,7 @@ const UserListScreen = (props) => {
     <ScrollView>
       <TouchableOpacity
         style={styles.createButton}
-        onPress={() => props.navigation.navigate("CreateUserScreen")}
+        onPress={() => navigation.navigate("CreateUserScreen")}
       >
         <Text style={styles.buttonText}>Create user</Text>
       </TouchableOpacity>
@@ -45,7 +47,7 @@ const UserListScreen = (props) => {
           <ListItem
             key={user.id}
             onPress={() =>
-              props.navigation.navigate("UserDetailScreen", {
+              navigation.navigate("UserDetailScreen", {
                 userId: user.id,
               })
             }
